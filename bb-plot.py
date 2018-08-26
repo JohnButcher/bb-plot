@@ -1,4 +1,4 @@
-import os,argparse
+import os,argparse, datetime
 import pandas as pd
 import plotly.plotly as py
 import plotly.offline as pyoff
@@ -8,12 +8,20 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--speedcsv',default=os.path.expanduser('~')+'/speedtest-asc.csv',
                          help='speedtest-cli output csv file - see https://github.com/sivel/speedtest-cli')
+    parser.add_argument('--days', default='7', help='day range from now')
+    parser.add_argument('--post',action='store_true', default=False, help="post to plot.ly")
     args = parser.parse_args()
 
     speedcsv = args.speedcsv
     speedplot = os.path.dirname(speedcsv) + '/speedplot.html'
     pingplot = os.path.dirname(speedcsv) + '/pingplot.html'
     speed_df = pd.read_csv(speedcsv,sep=',')
+    speed_df['Timestamp'] = pd.to_datetime(speed_df['Timestamp'])
+    offset = datetime.timedelta(days=int(args.days))
+    start = datetime.date.today() - offset
+    pd_start = pd.Timestamp(start)
+    pd_filter = speed_df['Timestamp'] >= pd_start
+    speed_df= speed_df[pd_filter]
 
     # Speeds down and up
 
@@ -45,7 +53,7 @@ def main():
 
     # post to plot.ly if credentials setup
 
-    if os.path.exists(os.path.expanduser('~')+'/.plotly/.credentials'):
+    if os.path.exists(os.path.expanduser('~')+'/.plotly/.credentials') and args.post:
        py.plot(figP, filename='pingplot',auto_open=False)
        py.plot(figS, filename='speedtests', auto_open=False)
        print ("posted to plot.ly")
