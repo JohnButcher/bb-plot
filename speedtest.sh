@@ -38,6 +38,6 @@ then
    cat ${asc}.100000 > $asc
    rm ${asc}.10000
 fi
-python $here/bb-plot.py
+python $here/bb-plot.py --post
 
 # End
