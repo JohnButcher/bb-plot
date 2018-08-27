@@ -8,7 +8,6 @@ dsc=$base/speedtest.csv
 err=$base/speedtest.err
 htm=$base/speedtest.html
 $base/.local/bin/speedtest-cli \
---server 16708 \
 --csv 2>$err | 
  awk -F, '{printf("%s,%s,%s,%s,%.1f,%.1f,%.2f,%.2f,%s,%s\n",\
            $1,$2,$3,$4,$5,$6,$7/1048576,$8/1048576,$9,$10)}' \
