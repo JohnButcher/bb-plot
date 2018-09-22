@@ -26,9 +26,11 @@ def main():
     # Speeds down and up
 
     Download_trace = go.Scatter(x=speed_df.Timestamp,y=speed_df.Download,name='Download',mode='lines')
+    Downsync_trace = go.Scatter(x=speed_df.Timestamp,y=speed_df.Downsync,name='Downsync',mode='lines')
     Upload_trace = go.Scatter(x=speed_df.Timestamp,y=speed_df.Upload,name='Upload',mode='lines')
+    Upsync_trace = go.Scatter(x=speed_df.Timestamp,y=speed_df.Upsync,name='Upsync',mode='lines')
 
-    speeddata = [Download_trace,Upload_trace]
+    speeddata = [Download_trace,Upload_trace,Downsync_trace,Upsync_trace]
     layout = go.Layout(title='Speed tests',
         xaxis=dict(title='',titlefont=dict(family='Courier New, monospace',size=14,color='#7f7f7f')),
         yaxis=dict(rangemode='tozero',title='Mbps',titlefont=dict(family='Courier New, monospace',size=14,color='#7f7f7f'))
