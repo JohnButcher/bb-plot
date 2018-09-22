@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 ip="192.168.0.254"
-p=$(cat $(dirname BASH_SOURCE)/.p)
+p=$(cat $(dirname $BASH_SOURCE)/.p)
 expect -c " 
         set timeout 3
         spawn telnet "$ip"
